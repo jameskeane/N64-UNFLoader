@@ -2029,24 +2029,7 @@ https://github.com/buu342/N64-UNFLoader
                             data_cache_hit_writeback((u32*)addr, 4);
                             inst_cache_hit_invalidate((u32*)addr, 4);
                         #endif
-                    
-                    // Move all the breakpoints in front of it back
-                    for (i=index; i<BPOINT_COUNT; i++)
-                    {
-                        if (debug_bpoints[i].addr == NULL)
-                            break;
-                        if (i == BPOINT_COUNT-1)
-                        {
-                            debug_bpoints[i].addr = NULL;
-                            debug_bpoints[i].instruction = 0;
-                        }
-                        else
-                        {
-                            debug_bpoints[i].addr = debug_bpoints[i+1].addr;
-                            debug_bpoints[i].instruction = debug_bpoints[i+1].instruction;
-                        }
-                    }
-                        
+
                     // Tell GDB we succeeded
                     usb_purge();
                     usb_write(DATATYPE_RDBPACKET, "OK", 2+1);

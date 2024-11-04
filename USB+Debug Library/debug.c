@@ -2044,6 +2044,12 @@ https://github.com/buu342/N64-UNFLoader
                         {
                             debug_bpoints[i].addr = debug_bpoints[i+1].addr;
                             debug_bpoints[i].instruction = debug_bpoints[i+1].instruction;
+                            // update the instruction with the new breakpoint index
+                            if (debug_bpoints[i].addr) {
+                                *((vu32*)debug_bpoints[i].addr) = MAKE_BREAKPOINT_INDEX(i+1);
+                                data_cache_hit_writeback((u32*)debug_bpoints[i].addr, 4);
+                                inst_cache_hit_invalidate((u32*)debug_bpoints[i].addr, 4);
+                            }
                         }
                     }
                         
